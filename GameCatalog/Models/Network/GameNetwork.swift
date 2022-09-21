@@ -33,12 +33,8 @@ class GameNetwork {
         let (data, response) = try await session.data(for: request)
         
         guard (response as? HTTPURLResponse)!.statusCode == 200 else {
-            
-            DispatchQueue.main.async {
-                self.delegate?.showErrorMessage(msg: "Failed to load data from network")
-            }
-            
-            fatalError("Error: Can't fetch data.")
+            delegate?.showErrorMessage(msg: "Failed to load data from network")
+            throw CustomError.NetworkError("Failed to load data from network")
         }
         
         let decoder = JSONDecoder()
@@ -88,11 +84,8 @@ class GameNetwork {
         let (data, response) = try await session.data(for: request)
         
         guard (response as? HTTPURLResponse)!.statusCode == 200 else {
-            DispatchQueue.main.async {
-                self.delegate?.showErrorMessage(msg: "Failed to load data from network")
-            }
-            
-            fatalError("Error: Can't fetch data.")
+            delegate?.showErrorMessage(msg: "Failed to load data from network")
+            throw CustomError.NetworkError("Failed to load data from network")
         }
         
         let decoder = JSONDecoder()

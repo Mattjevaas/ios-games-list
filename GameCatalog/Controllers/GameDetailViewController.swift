@@ -197,6 +197,8 @@ extension GameDetailViewController {
 // MARK: - Error Network Delegate
 extension GameDetailViewController: ErrorNetworkDelegate {
     func showErrorMessage(msg: String) {
-        showError(msg: msg)
+        DispatchQueue.main.async {
+            self.showError(msg: msg)
+        }
     }
 }

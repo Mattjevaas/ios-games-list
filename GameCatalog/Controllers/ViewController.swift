@@ -219,6 +219,8 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
 // MARK: - Error Network Delegate
 extension ViewController: ErrorNetworkDelegate {
     func showErrorMessage(msg: String) {
-        showError(msg: msg)
+        DispatchQueue.main.async {
+            self.showError(msg: msg)
+        }
     }
 }
