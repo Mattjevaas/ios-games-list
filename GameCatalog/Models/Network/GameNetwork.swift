@@ -8,7 +8,13 @@
 import Foundation
 import UIKit
 
-struct GameNetwork {
+protocol ErrorNetworkDelegate: AnyObject {
+    func showErrorMessage(msg: String)
+}
+
+class GameNetwork {
+    
+    weak var delegate: ErrorNetworkDelegate?
     
     private let session = URLSession(configuration: .default)
     
@@ -27,7 +33,12 @@ struct GameNetwork {
         let (data, response) = try await session.data(for: request)
         
         guard (response as? HTTPURLResponse)!.statusCode == 200 else {
-            fatalError("Error: Can't fetch data. Reason")
+            
+            DispatchQueue.main.async {
+                self.delegate?.showErrorMessage(msg: "Failed to load data from network")
+            }
+            
+            fatalError("Error: Can't fetch data.")
         }
         
         let decoder = JSONDecoder()
@@ -35,28 +46,30 @@ struct GameNetwork {
         
         var gameData: [GameData] = []
         
-        gameData = result.results.map { data in
-            
-            var fixedDate = "unknown"
-            
-            let formatterOne = DateFormatter()
-            formatterOne.dateFormat = "yyyy-mm-dd"
+        if let res = result.results {
+            gameData = res.map { data in
+                
+                var fixedDate = "unknown"
+                
+                let formatterOne = DateFormatter()
+                formatterOne.dateFormat = "yyyy-mm-dd"
 
-            let formatterTwo = DateFormatter()
-            formatterTwo.dateFormat = "dd-mm-yyyy"
+                let formatterTwo = DateFormatter()
+                formatterTwo.dateFormat = "dd-mm-yyyy"
 
-            if let dateOne = formatterOne.date(from: data.released) {
-                fixedDate = formatterTwo.string(from: dateOne)
+                if let dateOne = formatterOne.date(from: data.released ?? "") {
+                    fixedDate = formatterTwo.string(from: dateOne)
+                }
+                
+                return GameData(
+                        gameId: data.id ?? 0,
+                        gameTitle: data.name ?? "",
+                        gameRating: Float(data.rating ?? 0.0),
+                        gameImage: data.backgroundImage ?? "",
+                        gameReleasedDate: fixedDate,
+                        gameDesc: ""
+                    )
             }
-            
-            return GameData(
-                    gameId: data.id,
-                    gameTitle: data.name,
-                    gameRating: Float(data.rating),
-                    gameImage: data.backgroundImage,
-                    gameReleasedDate: fixedDate,
-                    gameDesc: ""
-                )
         }
         
         return gameData
@@ -75,7 +88,11 @@ struct GameNetwork {
         let (data, response) = try await session.data(for: request)
         
         guard (response as? HTTPURLResponse)!.statusCode == 200 else {
-            fatalError("Error: Can't fetch data. Reason")
+            DispatchQueue.main.async {
+                self.delegate?.showErrorMessage(msg: "Failed to load data from network")
+            }
+            
+            fatalError("Error: Can't fetch data.")
         }
         
         let decoder = JSONDecoder()
@@ -89,16 +106,16 @@ struct GameNetwork {
         let formatterTwo = DateFormatter()
         formatterTwo.dateFormat = "dd-mm-yyyy"
 
-        if let dateOne = formatterOne.date(from: result.released) {
+        if let dateOne = formatterOne.date(from: result.released ?? "") {
             fixedDate = formatterTwo.string(from: dateOne)
         }
         return GameData(
-                gameId: result.id,
-                gameTitle: result.nameOriginal,
-                gameRating: Float(result.rating),
-                gameImage: result.backgroundImage,
+                gameId: result.id ?? 0,
+                gameTitle: result.nameOriginal ?? "",
+                gameRating: Float(result.rating ?? 0.0),
+                gameImage: result.backgroundImage ?? "",
                 gameReleasedDate: fixedDate,
-                gameDesc: result.descriptionRaw
+                gameDesc: result.descriptionRaw ?? ""
             )
     }
 }

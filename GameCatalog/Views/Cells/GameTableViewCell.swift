@@ -10,17 +10,17 @@ import SkeletonView
 
 class GameTableViewCell: UITableViewCell {
     
-    lazy var gameImage = UIImageView()
-    lazy var gameTitle = UILabel()
+    var gameImage = UIImageView()
+    var gameTitle = UILabel()
     
-    private lazy var starImage = UIImageView()
-    lazy var gameRating = UILabel()
-    lazy var gameGenre = UILabel()
-    lazy var releasedDate = UILabel()
+    private var starImage = UIImageView()
+    var gameRating = UILabel()
+    var gameGenre = UILabel()
+    var releasedDate = UILabel()
     
-    lazy var stackSecond = UIStackView()
-    lazy var stackFirst = UIStackView()
-    lazy var stackRating = UIStackView()
+    var stackSecond = UIStackView()
+    var stackFirst = UIStackView()
+    var stackRating = UIStackView()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)

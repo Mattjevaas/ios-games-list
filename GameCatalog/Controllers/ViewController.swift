@@ -10,15 +10,15 @@ import Kingfisher
 
 class ViewController: UIViewController {
     
-    let gameNetwork = GameNetwork()
-    lazy var gameData: [GameData] = []
-    lazy var gameDataFilter: [GameData] = []
+    var gameNetwork = GameNetwork()
+    var gameData: [GameData] = []
+    var gameDataFilter: [GameData] = []
     
     var filterOn = false
     var dataSize = 10
 
-    lazy var tableView = UITableView()
-    lazy var refreshControl = UIRefreshControl()
+    var tableView = UITableView()
+    var refreshControl = UIRefreshControl()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -51,6 +51,7 @@ extension ViewController {
     func setupTableView() {
         tableView.delegate = self
         tableView.dataSource = self
+        gameNetwork.delegate = self
 
         tableView.register(GameTableViewCell.self, forCellReuseIdentifier: "GameCell")
         tableView.rowHeight = 150
@@ -79,8 +80,14 @@ extension ViewController {
         
         Task {
             refreshControl.beginRefreshing()
-            gameData = try await gameNetwork.getGameData(pageSize: 10)
-            tableView.reloadData()
+            
+            do {
+                gameData = try await gameNetwork.getGameData(pageSize: dataSize)
+                tableView.reloadData()
+            } catch {
+                showError(msg: "Cannot load data from network")
+            }
+            
             refreshControl.endRefreshing()
             dataSize = 10
         }
@@ -94,8 +101,14 @@ extension ViewController {
             
             Task {
                 refreshControl.beginRefreshing()
-                gameData = try await gameNetwork.getGameData(pageSize: dataSize)
-                tableView.reloadData()
+                
+                do {
+                    gameData = try await gameNetwork.getGameData(pageSize: dataSize)
+                    tableView.reloadData()
+                } catch {
+                    showError(msg: "Cannot load data from network")
+                }
+                
                 refreshControl.endRefreshing()
             }
         } else {
@@ -118,6 +131,12 @@ extension ViewController {
         }
         
         tableView.reloadData()
+    }
+    
+    func showError(msg: String) {
+        let alert = UIAlertController(title: "Error", message: msg, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default))
+        self.present(alert, animated: true)
     }
 }
 
@@ -194,5 +213,12 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         }
         
         return cell
+    }
+}
+
+// MARK: - Error Network Delegate
+extension ViewController: ErrorNetworkDelegate {
+    func showErrorMessage(msg: String) {
+        showError(msg: msg)
     }
 }

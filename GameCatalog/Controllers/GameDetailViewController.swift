@@ -10,7 +10,9 @@ import SkeletonView
 import Kingfisher
 
 class GameDetailViewController: UIViewController {
-
+    
+    var network = GameNetwork()
+    
     var gameId: Int?
     var navTitle: String?
     
@@ -44,6 +46,8 @@ class GameDetailViewController: UIViewController {
 extension GameDetailViewController {
     
     func initilizeController() {
+        
+        network.delegate = self
         
         view.backgroundColor = .white
         self.navigationItem.largeTitleDisplayMode = .never
@@ -141,7 +145,6 @@ extension GameDetailViewController {
         let processor = ResizingImageProcessor(referenceSize: CGSize(width: Constants.cellImageWidth, height: Constants.cellImageHeight), mode: .aspectFill) |> RoundCornerImageProcessor(cornerRadius: Constants.cellImageCorner)
         
         do {
-            let network = GameNetwork()
             let data = try await network.getGameDataDetail(idGame: id)
             
             gameImage.kf.indicatorType = .activity
@@ -160,7 +163,7 @@ extension GameDetailViewController {
             gameReleased.text = "Released date: \(data.gameReleasedDate)"
             
         } catch {
-            print("Something wrong")
+            showError(msg: "Cannot load data from network")
         }
     }
     
@@ -182,5 +185,18 @@ extension GameDetailViewController {
             $0.stopSkeletonAnimation()
             $0.hideSkeleton()
         }
+    }
+    
+    func showError(msg: String) {
+        let alert = UIAlertController(title: "Error", message: msg, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default))
+        self.present(alert, animated: true)
+    }
+}
+
+// MARK: - Error Network Delegate
+extension GameDetailViewController: ErrorNetworkDelegate {
+    func showErrorMessage(msg: String) {
+        showError(msg: msg)
     }
 }
