@@ -45,6 +45,12 @@ extension ViewController {
         self.navigationController?.navigationBar.prefersLargeTitles = true
         self.navigationItem.title = "Games List"
         self.navigationItem.hidesSearchBarWhenScrolling = false
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(
+            image: UIImage(systemName: "info.circle"),
+            style: .plain,
+            target: self,
+            action: #selector(goToDevProfile)
+        )
         self.navigationItem.searchController = search
     }
     
@@ -67,13 +73,17 @@ extension ViewController {
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
         tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
-        tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-        tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        tableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
+        tableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
     }
 }
 
 // MARK: - Additional Functions
 extension ViewController {
+    
+    @objc func goToDevProfile() {
+        self.navigationController?.pushViewController(DevProfileViewController(), animated: true)
+    }
     
     @objc func refreshData() {
         addDummy()
