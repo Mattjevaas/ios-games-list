@@ -9,4 +9,5 @@ target 'GameCatalog' do
   pod 'SwiftLint'
   pod 'Kingfisher'
   pod 'SkeletonView'
+  pod 'RealmSwift', '~> 10.30'
 end

@@ -8,6 +8,7 @@
 import UIKit
 import SkeletonView
 import Kingfisher
+import RealmSwift
 
 class GameDetailViewController: UIViewController {
     
@@ -15,6 +16,7 @@ class GameDetailViewController: UIViewController {
     
     var gameId: Int?
     var navTitle: String?
+    var isFavorite: Bool = false
     
     private var scrollView = UIScrollView()
     private var contentView = UIView()
@@ -51,8 +53,9 @@ extension GameDetailViewController {
         
         view.backgroundColor = .white
         self.navigationItem.largeTitleDisplayMode = .never
-    
+        
         self.navigationItem.title = navTitle ?? "Game Detail"
+        initFavoriteButton()
         
         view.addSubview(scrollView)
         scrollView.addSubview(contentView)
@@ -67,6 +70,31 @@ extension GameDetailViewController {
         setStack()
         setGameImageConstraints()
         setStackConstraints()
+    }
+    
+    func initFavoriteButton() {
+        guard let realm = try? Realm() else { return }
+        
+        var buttonName = ""
+        
+        let gameData = realm.objects(GameDataRealm.self).where {
+            $0.gameId == gameId!
+        }.first
+        
+        if gameData != nil {
+            buttonName = "heart.fill"
+            isFavorite = true
+            
+        } else {
+            buttonName = "heart"
+        }
+        
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(
+            image: UIImage(systemName: buttonName),
+            style: .plain,
+            target: self,
+            action: #selector(onClickFavorite)
+        )
     }
     
     func configureGameImage() {
@@ -191,6 +219,55 @@ extension GameDetailViewController {
         let alert = UIAlertController(title: "Error", message: msg, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .default))
         self.present(alert, animated: true)
+    }
+    
+    @objc func onClickFavorite() {
+        
+        guard let realm = try? Realm() else { return }
+        
+        if !isFavorite {
+            do {
+                
+                let gameData = GameDataRealm()
+                
+                gameData.gameId = gameId!
+                gameData.gameTitle = gameTitle.text!
+                gameData.gameRating = gameRating.text!
+                gameData.gameDesc = gameDesc.text!
+                gameData.gameReleasedDate = gameReleased.text!
+                gameData.gameImage = gameImage.image!.pngData()!
+                
+                try realm.write {
+                    realm.add(gameData)
+                }
+                
+            } catch {
+                showError(msg: "Error adding game to Favorite")
+            }
+        } else {
+            
+            do {
+                
+                let gameData = realm.objects(GameDataRealm.self).where {
+                    $0.gameId == gameId!
+                }.first!
+                
+                try realm.write {
+                    realm.delete(gameData)
+                }
+            } catch {
+                showError(msg: "Error deleting game from Favorite")
+            }
+        }
+        
+        isFavorite = !isFavorite
+        
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(
+            image: UIImage(systemName: isFavorite ? "heart.fill" : "heart"),
+            style: .plain,
+            target: self,
+            action: #selector(onClickFavorite)
+        )
     }
 }
 

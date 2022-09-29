@@ -10,8 +10,6 @@
 //
 //   let gameResponseDetail = try? newJSONDecoder().decode(GameResponseDetail.self, from: jsonData)
 
-import Foundation
-
 // MARK: - GameDetailResponse
 struct GameDetailResponse: Codable {
     let id: Int?

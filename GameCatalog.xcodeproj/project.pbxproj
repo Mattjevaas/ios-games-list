@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		5F3A8BAAE330D1ABAFED8BB7 /* Pods_GameCatalog.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA2674B04F5C417B0C46EF87 /* Pods_GameCatalog.framework */; };
+		843873A028E4085E0001FDC1 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8438739F28E4085E0001FDC1 /* TabBarController.swift */; };
+		843873A228E40FCE0001FDC1 /* FavoriteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843873A128E40FCE0001FDC1 /* FavoriteViewController.swift */; };
+		843873A528E499F80001FDC1 /* GameDataRealm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843873A428E499F80001FDC1 /* GameDataRealm.swift */; };
 		84728E7C28D30E9A00127063 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84728E7B28D30E9A00127063 /* AppDelegate.swift */; };
 		84728E7E28D30E9A00127063 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84728E7D28D30E9A00127063 /* SceneDelegate.swift */; };
 		84728E8028D30E9A00127063 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84728E7F28D30E9A00127063 /* ViewController.swift */; };
@@ -26,6 +29,9 @@
 
 /* Begin PBXFileReference section */
 		5ECDCC9DE18C8CE9CCD81DF9 /* Pods-GameCatalog.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GameCatalog.debug.xcconfig"; path = "Target Support Files/Pods-GameCatalog/Pods-GameCatalog.debug.xcconfig"; sourceTree = "<group>"; };
+		8438739F28E4085E0001FDC1 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
+		843873A128E40FCE0001FDC1 /* FavoriteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteViewController.swift; sourceTree = "<group>"; };
+		843873A428E499F80001FDC1 /* GameDataRealm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameDataRealm.swift; sourceTree = "<group>"; };
 		84728E7828D30E9A00127063 /* GameCatalog.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GameCatalog.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		84728E7B28D30E9A00127063 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		84728E7D28D30E9A00127063 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -65,6 +71,14 @@
 				B63A43FBC7BBC829CEEA120B /* Pods-GameCatalog.release.xcconfig */,
 			);
 			path = Pods;
+			sourceTree = "<group>";
+		};
+		843873A328E499E30001FDC1 /* Realm */ = {
+			isa = PBXGroup;
+			children = (
+				843873A428E499F80001FDC1 /* GameDataRealm.swift */,
+			);
+			path = Realm;
 			sourceTree = "<group>";
 		};
 		84728E6F28D30E9A00127063 = {
@@ -107,6 +121,8 @@
 				84728E7F28D30E9A00127063 /* ViewController.swift */,
 				84E23B6728D98BA6008A9870 /* GameDetailViewController.swift */,
 				84E23B6C28DAB42B008A9870 /* DevProfileViewController.swift */,
+				8438739F28E4085E0001FDC1 /* TabBarController.swift */,
+				843873A128E40FCE0001FDC1 /* FavoriteViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -122,6 +138,7 @@
 		84728E9528D44B6400127063 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				843873A328E499E30001FDC1 /* Realm */,
 				84CCEBF828D611DB0055BF1A /* Data */,
 				84CCEBF728D611CD0055BF1A /* Response */,
 				84728E9728D45F9F00127063 /* Network */,
@@ -314,14 +331,17 @@
 			buildActionMask = 2147483647;
 			files = (
 				84728E8028D30E9A00127063 /* ViewController.swift in Sources */,
+				843873A028E4085E0001FDC1 /* TabBarController.swift in Sources */,
 				84E23B6828D98BA6008A9870 /* GameDetailViewController.swift in Sources */,
 				84728E7C28D30E9A00127063 /* AppDelegate.swift in Sources */,
+				843873A528E499F80001FDC1 /* GameDataRealm.swift in Sources */,
 				84728E7E28D30E9A00127063 /* SceneDelegate.swift in Sources */,
 				84728E9228D445C200127063 /* GameResponse.swift in Sources */,
 				84E23B6B28DAA600008A9870 /* CustomError.swift in Sources */,
 				84728E9B28D4E2EC00127063 /* GameData.swift in Sources */,
 				84728E9928D45FBB00127063 /* GameNetwork.swift in Sources */,
 				84E23B6D28DAB42B008A9870 /* DevProfileViewController.swift in Sources */,
+				843873A228E40FCE0001FDC1 /* FavoriteViewController.swift in Sources */,
 				84728E9028D36D8B00127063 /* GameTableViewCell.swift in Sources */,
 				84E23B6628D98940008A9870 /* GameDetailResponse.swift in Sources */,
 				84728E9D28D4F49F00127063 /* Constants.swift in Sources */,

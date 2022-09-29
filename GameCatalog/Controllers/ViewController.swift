@@ -160,8 +160,20 @@ extension ViewController: UISearchResultsUpdating {
             }
             
             filterOn = true
+            
+            if gameDataFilter.count == 0 {
+                let label = UILabel()
+                label.text = "Nothing Found"
+                label.textColor = .systemGray
+                label.textAlignment = .center
+                
+                tableView.backgroundView = label
+            } else {
+                tableView.backgroundView = nil
+            }
         } else {
             filterOn = false
+            tableView.backgroundView = nil
             gameDataFilter.removeAll()
         }
         

@@ -15,8 +15,6 @@
 //
 //   let gameResponse = try? newJSONDecoder().decode(GameResponse.self, from: jsonData)
 
-import Foundation
-
 // MARK: - GameResponse
 struct GameResponse: Codable {
     let count: Int?
