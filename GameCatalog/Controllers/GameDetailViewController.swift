@@ -170,6 +170,9 @@ extension GameDetailViewController {
 extension GameDetailViewController {
     
     func loadData(id: Int) async {
+        
+        self.navigationItem.rightBarButtonItem?.isEnabled = false
+        
         let processor = ResizingImageProcessor(referenceSize: CGSize(width: Constants.cellImageWidth, height: Constants.cellImageHeight), mode: .aspectFill) |> RoundCornerImageProcessor(cornerRadius: Constants.cellImageCorner)
         
         do {
@@ -193,6 +196,8 @@ extension GameDetailViewController {
         } catch {
             showError(msg: "Cannot load data from network")
         }
+        
+        self.navigationItem.rightBarButtonItem?.isEnabled = true
     }
     
     func showAnimation() {

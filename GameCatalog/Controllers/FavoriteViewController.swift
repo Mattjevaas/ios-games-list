@@ -7,10 +7,11 @@
 
 import UIKit
 import Kingfisher
+import RealmSwift
 
 class FavoriteViewController: UIViewController {
     
-    var gameData: [GameData] = []
+    var favGames: [FavoriteGameData] = []
     
     var tableView = UITableView()
     
@@ -18,8 +19,27 @@ class FavoriteViewController: UIViewController {
         super.viewDidLoad()
 
         initilizeController()
-        
         self.view.addSubview(tableView)
+        
+        setupTableView()
+        setTableViewConstraints()
+        
+        loadData()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        loadData()
+        
+        if favGames.count == 0 {
+            let label = UILabel()
+            label.text = "Nothing to show"
+            label.textColor = .systemGray
+            label.textAlignment = .center
+            
+            tableView.backgroundView = label
+        } else {
+            tableView.backgroundView = nil
+        }
     }
 }
 
@@ -47,6 +67,33 @@ extension FavoriteViewController {
         tableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
         tableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
     }
+    
+    func loadData() {
+        guard let realm = try? Realm() else { return }
+        
+        let data = realm.objects(GameDataRealm.self)
+        favGames = data.map { result in
+            return FavoriteGameData(
+                gameId: result.gameId,
+                gameTitle: result.gameTitle,
+                gameRating: result.gameRating,
+                gameImage: result.gameImage,
+                gameReleasedDate: result.gameReleasedDate,
+                gameDesc: result.gameDesc
+            )
+        }
+        
+        tableView.reloadData()
+    }
+}
+
+// MARK: - Additional Functions
+extension FavoriteViewController {
+    func showError(msg: String) {
+        let alert = UIAlertController(title: "Error", message: msg, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default))
+        self.present(alert, animated: true)
+    }
 }
 
 // MARK: - Table Delegate & Data Source
@@ -54,7 +101,7 @@ extension FavoriteViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        let data = gameData[indexPath.row]
+        let data = favGames[indexPath.row]
                                                                            
         let gameDetailController = GameDetailViewController()
         gameDetailController.gameId = data.gameId
@@ -65,7 +112,7 @@ extension FavoriteViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        return favGames.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -73,20 +120,9 @@ extension FavoriteViewController: UITableViewDelegate, UITableViewDataSource {
         
         cell.showAnimation()
         
-        let data = gameData[indexPath.row]
+        let data = favGames[indexPath.row]
         
-        let processor = ResizingImageProcessor(referenceSize: CGSize(width: Constants.cellImageWidth, height: Constants.cellImageHeight), mode: .aspectFill) |> RoundCornerImageProcessor(cornerRadius: Constants.cellImageCorner)
-
-        cell.gameImage.kf.indicatorType = .activity
-        cell.gameImage.kf.setImage(
-            with: URL(string: data.gameImage),
-            options: [
-                .processor(processor),
-                .transition(.fade(1)),
-                .cacheOriginalImage
-            ]
-        )
-
+        cell.gameImage.image = UIImage(data: data.gameImage)
         cell.gameTitle.text = data.gameTitle
         cell.gameRating.text = String(data.gameRating)
         cell.releasedDate.text = "Released date: \(data.gameReleasedDate)"

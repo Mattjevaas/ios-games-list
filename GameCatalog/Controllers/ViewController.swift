@@ -45,12 +45,6 @@ extension ViewController {
         self.navigationController?.navigationBar.prefersLargeTitles = true
         self.navigationItem.title = "Games List"
         self.navigationItem.hidesSearchBarWhenScrolling = false
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(
-            image: UIImage(systemName: "info.circle"),
-            style: .plain,
-            target: self,
-            action: #selector(goToDevProfile)
-        )
         self.navigationItem.searchController = search
     }
     
@@ -80,10 +74,6 @@ extension ViewController {
 
 // MARK: - Additional Functions
 extension ViewController {
-    
-    @objc func goToDevProfile() {
-        self.navigationController?.pushViewController(DevProfileViewController(), animated: true)
-    }
     
     @objc func refreshData() {
         addDummy()
