@@ -6,4 +6,5 @@
 //
 enum CustomError: Error {
     case NetworkError(String)
+    case RealmError(String)
 }

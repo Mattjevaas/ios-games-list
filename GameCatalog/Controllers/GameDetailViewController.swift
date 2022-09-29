@@ -13,6 +13,7 @@ import RealmSwift
 class GameDetailViewController: UIViewController {
     
     var network = GameNetwork()
+    var realmDatasource = RealmDatasource()
     
     var gameId: Int?
     var navTitle: String?
@@ -228,8 +229,6 @@ extension GameDetailViewController {
     
     @objc func onClickFavorite() {
         
-        guard let realm = try? Realm() else { return }
-        
         if !isFavorite {
             do {
                 
@@ -242,9 +241,7 @@ extension GameDetailViewController {
                 gameData.gameReleasedDate = gameReleased.text!
                 gameData.gameImage = gameImage.image!.pngData()!
                 
-                try realm.write {
-                    realm.add(gameData)
-                }
+                try realmDatasource.saveData(data: gameData)
                 
             } catch {
                 showError(msg: "Error adding game to Favorite")
@@ -253,13 +250,8 @@ extension GameDetailViewController {
             
             do {
                 
-                let gameData = realm.objects(GameDataRealm.self).where {
-                    $0.gameId == gameId!
-                }.first!
+                try realmDatasource.deleteData(id: gameId!)
                 
-                try realm.write {
-                    realm.delete(gameData)
-                }
             } catch {
                 showError(msg: "Error deleting game from Favorite")
             }

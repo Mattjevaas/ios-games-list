@@ -11,6 +11,8 @@ import RealmSwift
 
 class FavoriteViewController: UIViewController {
     
+    var realmDatasource = RealmDatasource()
+    
     var favGames: [FavoriteGameData] = []
     
     var tableView = UITableView()
@@ -32,7 +34,7 @@ class FavoriteViewController: UIViewController {
         
         if favGames.count == 0 {
             let label = UILabel()
-            label.text = "Nothing to show"
+            label.text = "You have no favorite game"
             label.textColor = .systemGray
             label.textAlignment = .center
             
@@ -69,21 +71,13 @@ extension FavoriteViewController {
     }
     
     func loadData() {
-        guard let realm = try? Realm() else { return }
         
-        let data = realm.objects(GameDataRealm.self)
-        favGames = data.map { result in
-            return FavoriteGameData(
-                gameId: result.gameId,
-                gameTitle: result.gameTitle,
-                gameRating: result.gameRating,
-                gameImage: result.gameImage,
-                gameReleasedDate: result.gameReleasedDate,
-                gameDesc: result.gameDesc
-            )
+        do {
+            favGames = try realmDatasource.getAllData()
+            tableView.reloadData()
+        } catch {
+            showError(msg: "Cannot load data from local storage")
         }
-        
-        tableView.reloadData()
     }
 }
 

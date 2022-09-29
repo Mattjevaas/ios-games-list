@@ -22,6 +22,7 @@
 		84728E9B28D4E2EC00127063 /* GameData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84728E9A28D4E2EC00127063 /* GameData.swift */; };
 		84728E9D28D4F49F00127063 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84728E9C28D4F49F00127063 /* Constants.swift */; };
 		84D992A628E563DA001E90EA /* FavoriteGameData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D992A528E563DA001E90EA /* FavoriteGameData.swift */; };
+		84D992AA28E5A6C2001E90EA /* RealmDatasource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D992A928E5A6C2001E90EA /* RealmDatasource.swift */; };
 		84E23B6628D98940008A9870 /* GameDetailResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E23B6528D98940008A9870 /* GameDetailResponse.swift */; };
 		84E23B6828D98BA6008A9870 /* GameDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E23B6728D98BA6008A9870 /* GameDetailViewController.swift */; };
 		84E23B6B28DAA600008A9870 /* CustomError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E23B6A28DAA600008A9870 /* CustomError.swift */; };
@@ -46,6 +47,7 @@
 		84728E9A28D4E2EC00127063 /* GameData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameData.swift; sourceTree = "<group>"; };
 		84728E9C28D4F49F00127063 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		84D992A528E563DA001E90EA /* FavoriteGameData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteGameData.swift; sourceTree = "<group>"; };
+		84D992A928E5A6C2001E90EA /* RealmDatasource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmDatasource.swift; sourceTree = "<group>"; };
 		84E23B6528D98940008A9870 /* GameDetailResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameDetailResponse.swift; sourceTree = "<group>"; };
 		84E23B6728D98BA6008A9870 /* GameDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameDetailViewController.swift; sourceTree = "<group>"; };
 		84E23B6A28DAA600008A9870 /* CustomError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomError.swift; sourceTree = "<group>"; };
@@ -75,12 +77,12 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
-		843873A328E499E30001FDC1 /* Realm */ = {
+		843873A328E499E30001FDC1 /* RealmData */ = {
 			isa = PBXGroup;
 			children = (
 				843873A428E499F80001FDC1 /* GameDataRealm.swift */,
 			);
-			path = Realm;
+			path = RealmData;
 			sourceTree = "<group>";
 		};
 		84728E6F28D30E9A00127063 = {
@@ -140,7 +142,7 @@
 		84728E9528D44B6400127063 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				843873A328E499E30001FDC1 /* Realm */,
+				84D992A828E5A6A9001E90EA /* Realm */,
 				84CCEBF828D611DB0055BF1A /* Data */,
 				84CCEBF728D611CD0055BF1A /* Response */,
 				84728E9728D45F9F00127063 /* Network */,
@@ -181,6 +183,23 @@
 				84D992A528E563DA001E90EA /* FavoriteGameData.swift */,
 			);
 			path = Data;
+			sourceTree = "<group>";
+		};
+		84D992A728E5A697001E90EA /* RealmDatasource */ = {
+			isa = PBXGroup;
+			children = (
+				84D992A928E5A6C2001E90EA /* RealmDatasource.swift */,
+			);
+			path = RealmDatasource;
+			sourceTree = "<group>";
+		};
+		84D992A828E5A6A9001E90EA /* Realm */ = {
+			isa = PBXGroup;
+			children = (
+				84D992A728E5A697001E90EA /* RealmDatasource */,
+				843873A328E499E30001FDC1 /* RealmData */,
+			);
+			path = Realm;
 			sourceTree = "<group>";
 		};
 		84E23B6928DAA5EA008A9870 /* Errors */ = {
@@ -343,6 +362,7 @@
 				84728E9228D445C200127063 /* GameResponse.swift in Sources */,
 				84E23B6B28DAA600008A9870 /* CustomError.swift in Sources */,
 				84728E9B28D4E2EC00127063 /* GameData.swift in Sources */,
+				84D992AA28E5A6C2001E90EA /* RealmDatasource.swift in Sources */,
 				84728E9928D45FBB00127063 /* GameNetwork.swift in Sources */,
 				84E23B6D28DAB42B008A9870 /* DevProfileViewController.swift in Sources */,
 				843873A228E40FCE0001FDC1 /* FavoriteViewController.swift in Sources */,
