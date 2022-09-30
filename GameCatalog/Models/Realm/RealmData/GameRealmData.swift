@@ -7,7 +7,7 @@
 
 import RealmSwift
 
-class GameDataRealm: Object {
+class GameRealmData: Object {
     @Persisted var gameId: Int
     @Persisted var gameTitle: String
     @Persisted var gameRating: String

@@ -8,12 +8,11 @@
 import UIKit
 import SkeletonView
 import Kingfisher
-import RealmSwift
 
 class GameDetailViewController: UIViewController {
     
     var network = GameNetwork()
-    var realmDatasource = RealmDatasource()
+    var realmPersist = RealmPersistence()
     
     var gameId: Int?
     var navTitle: String?
@@ -74,15 +73,12 @@ extension GameDetailViewController {
     }
     
     func initFavoriteButton() {
-        guard let realm = try? Realm() else { return }
         
         var buttonName = ""
         
-        let gameData = realm.objects(GameDataRealm.self).where {
-            $0.gameId == gameId!
-        }.first
+        let isExist = realmPersist.isDataExist(type: GameRealmData.self, predicate: NSPredicate(format: "gameId == \(gameId!)"))
         
-        if gameData != nil {
+        if isExist {
             buttonName = "heart.fill"
             isFavorite = true
             
@@ -232,7 +228,7 @@ extension GameDetailViewController {
         if !isFavorite {
             do {
                 
-                let gameData = GameDataRealm()
+                let gameData = GameRealmData()
                 
                 gameData.gameId = gameId!
                 gameData.gameTitle = gameTitle.text!
@@ -241,7 +237,7 @@ extension GameDetailViewController {
                 gameData.gameReleasedDate = gameReleased.text!
                 gameData.gameImage = gameImage.image!.pngData()!
                 
-                try realmDatasource.saveData(data: gameData)
+                try realmPersist.saveData(object: gameData)
                 
             } catch {
                 showError(msg: "Error adding game to Favorite")
@@ -250,7 +246,7 @@ extension GameDetailViewController {
             
             do {
                 
-                try realmDatasource.deleteData(id: gameId!)
+                try realmPersist.deleteData(type: GameRealmData.self, predicate: NSPredicate(format: "gameId == \(gameId!)"))
                 
             } catch {
                 showError(msg: "Error deleting game from Favorite")

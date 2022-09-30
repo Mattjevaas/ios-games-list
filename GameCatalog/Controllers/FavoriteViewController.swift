@@ -7,11 +7,10 @@
 
 import UIKit
 import Kingfisher
-import RealmSwift
 
 class FavoriteViewController: UIViewController {
     
-    var realmDatasource = RealmDatasource()
+    var realmPersist = RealmPersistence()
     
     var favGames: [FavoriteGameData] = []
     
@@ -73,7 +72,19 @@ extension FavoriteViewController {
     func loadData() {
         
         do {
-            favGames = try realmDatasource.getAllData()
+            if let data = try realmPersist.fetchData(type: GameRealmData.self) {
+                favGames = data.map { res in
+                    return FavoriteGameData(
+                        gameId: res.gameId,
+                        gameTitle: res.gameTitle,
+                        gameRating: res.gameRating,
+                        gameImage: res.gameImage,
+                        gameReleasedDate: res.gameReleasedDate,
+                        gameDesc: res.gameDesc
+                    )
+                }
+            }
+            
             tableView.reloadData()
         } catch {
             showError(msg: "Cannot load data from local storage")
