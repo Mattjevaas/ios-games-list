@@ -11,4 +11,7 @@ struct Constants {
     static let cellImageCorner = 10.0
     static let detailImageHeight = 200.0
     static let detailImageWidth = 200.0
+    
+    static let nameKey = "user-name"
+    static let descKey = "user-desc"
 }

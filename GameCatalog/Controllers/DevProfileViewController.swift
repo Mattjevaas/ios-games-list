@@ -25,7 +25,6 @@ class DevProfileViewController: UIViewController {
         
         view.addSubview(scrollView)
         scrollView.addSubview(contentView)
-        
         contentView.addSubview(devImage)
         contentView.addSubview(stack)
         
@@ -37,14 +36,25 @@ class DevProfileViewController: UIViewController {
         setDevImageConstraints()
         setStackConstraints()
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        initProfileData()
+    }
 }
 
+// MARK: - Init Setup
 extension DevProfileViewController {
     
     func initializeController() {
         view.backgroundColor = .white
         self.navigationItem.title = "Developer Profile"
         self.navigationItem.largeTitleDisplayMode = .never
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(
+            image: UIImage(systemName: "square.and.pencil"),
+            style: .plain,
+            target: self,
+            action: #selector(goToEditProfile)
+        )
     }
     
     func configureDevImage() {
@@ -56,11 +66,9 @@ extension DevProfileViewController {
     }
     
     func configureLabel() {
-        devName.text = "Johanes Wiku Sakti"
         devName.font = UIFont.systemFont(ofSize: 20, weight: .bold)
         devName.textAlignment = .center
         
-        devDesc.text = "Passionate in Computer Science with a focus on web and mobile application development. Interested in learning new things especially about programming, entrepreneurship, and technology. A person who love to make new connection with others to share experiences with each other."
         devDesc.font = UIFont.systemFont(ofSize: 14)
         devDesc.numberOfLines = 0
         devDesc.textAlignment = .justified
@@ -106,5 +114,28 @@ extension DevProfileViewController {
         stack.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
         stack.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.9).isActive = true
         stack.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
+    }
+}
+
+// MARK: - Additional Functions
+extension DevProfileViewController {
+    @objc func goToEditProfile() {
+        self.navigationController?.pushViewController(EditProfileViewController(), animated: true)
+    }
+    
+    func initProfileData() {
+        let nameData = UserDefaults.standard.string(forKey: Constants.nameKey)
+        let descData = UserDefaults.standard.string(forKey: Constants.descKey)
+        
+        if nameData != nil, descData != nil {
+            devName.text = nameData
+            devDesc.text = descData
+        } else {
+            devName.text = "Johanes Wiku Sakti"
+            devDesc.text = "Passionate in Computer Science with a focus on web and mobile application development. Interested in learning new things especially about programming, entrepreneurship, and technology. A person who love to make new connection with others to share experiences with each other."
+            
+            UserDefaults.standard.set("Johanes Wiku Sakti", forKey: Constants.nameKey)
+            UserDefaults.standard.set("Passionate in Computer Science with a focus on web and mobile application development. Interested in learning new things especially about programming, entrepreneurship, and technology. A person who love to make new connection with others to share experiences with each other.", forKey: Constants.descKey)
+        }
     }
 }
