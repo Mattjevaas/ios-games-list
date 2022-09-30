@@ -14,6 +14,22 @@ class GameNetwork {
     
     weak var delegate: ErrorNetworkDelegate?
     
+    private var apiKey: String {
+        get {
+          
+            guard let filePath = Bundle.main.path(forResource: "Info", ofType: "plist") else {
+              return ""
+            }
+
+            let plist = NSDictionary(contentsOfFile: filePath)
+            guard let value = plist?.object(forKey: "API_KEY") as? String else {
+                return ""
+            }
+              
+            return value
+        }
+    }
+    
     private let session = URLSession(configuration: .default)
     
     func getGameData(pageSize: Int) async throws -> [GameData] {
@@ -21,7 +37,7 @@ class GameNetwork {
         var component = URLComponents(string: "https://api.rawg.io/api/games")!
         
         component.queryItems = [
-            URLQueryItem(name: "key", value: Constants.apiKey),
+            URLQueryItem(name: "key", value: apiKey),
             URLQueryItem(name: "page_size", value: String(pageSize))
         
         ]
@@ -74,7 +90,7 @@ class GameNetwork {
         var component = URLComponents(string: "https://api.rawg.io/api/games/\(idGame)")!
         
         component.queryItems = [
-            URLQueryItem(name: "key", value: Constants.apiKey)
+            URLQueryItem(name: "key", value: apiKey)
         ]
         
         let request = URLRequest(url: (component.url)!)
