@@ -10,4 +10,15 @@ target 'GameCatalog' do
   pod 'Kingfisher'
   pod 'SkeletonView'
   pod 'RealmSwift', '~> 10.30'
+  pod 'RxSwift', '6.5.0'
+  pod 'RxCocoa', '6.5.0'
+  pod 'Swinject'
+  pod 'Alamofire'
+end
+
+target 'GameCatalogTests' do
+   use_frameworks!
+
+   pod 'RxBlocking', '6.5.0'
+   pod 'RxTest', '6.5.0'
 end
