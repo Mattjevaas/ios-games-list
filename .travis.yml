@@ -1,0 +1,5 @@
+language: swift
+osx_image: xcode14.1
+xcode_workspace: GameCatalog.xcworkspace 
+xcode_scheme: GameCatalog
+xcode_destination: platform=iOS Simulator,OS=14.0,name=iPhone 11 Pro
