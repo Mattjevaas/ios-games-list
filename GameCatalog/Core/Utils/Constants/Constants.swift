@@ -7,6 +7,7 @@
 
 import Foundation
 
+// test changes travis ci
 struct Constants {
     static let cellImageHeight = 120.0
     static let cellImageWidth = 120.0
