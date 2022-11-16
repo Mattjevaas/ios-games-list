@@ -22,8 +22,7 @@ final class GameCatalogTests: XCTestCase {
         let homeUC = injection.provideHomeUC()
         let state = homeUC is HomeUseCase
         
-        //change to false test
-        XCTAssertEqual(false, state, "Failed to provide Home UseCase")
+        XCTAssertEqual(true, state, "Failed to provide Home UseCase")
     }
     
     func testProvideGameDetailUseCase() {
